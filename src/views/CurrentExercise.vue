@@ -1,13 +1,12 @@
 <template>
 	<div>
-		<h3>Exercise Name</h3>
 		<b-container class="bv-example-row" fluid="sm">
 			<b-row>
 				<b-col>
 					<NewLift />
 				</b-col>
 			</b-row>
-			<b-row>
+			<b-row v-if="currentLift">
 				<b-col>
 					<LiftLog />
 				</b-col>
@@ -21,6 +20,7 @@
 </style>
 
 <script>
+import { mapGetters } from 'vuex'
 import NewLift from '../components/NewLift.vue'
 import LiftLog from '../components/LiftLog.vue'
 
@@ -29,6 +29,9 @@ export default {
 	components: {
 		NewLift,
 		LiftLog,
+	},
+	computed: {
+		...mapGetters(['currentLift'])
 	}
 }
 </script>
