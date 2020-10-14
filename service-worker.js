@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.c641472bbe800826a3ec292adcf53f0e.js"
+  "precache-manifest.7f9c812511413f446f7d636cb5ef4a2d.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "LiftTracker"});
