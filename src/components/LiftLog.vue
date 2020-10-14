@@ -1,77 +1,106 @@
 <template>
-  <div>
-    <b-container fluid>
-      <h3>{{ currentLift.Name }}</h3>
+  <v-container>
+    <h4 class="text-center" style="font-weight: normal;">{{ currentLift.Name }}</h4>
+    <v-row align="center">
+      <v-col cols="4">
+        <v-btn icon block @click="set.weight = set.weight * 1 + 1"
+          ><v-icon>mdi-chevron-up</v-icon></v-btn
+        >
+        <v-text-field
+          label="Weight (Kg)"
+          v-model="set.weight"
+          type="number"
+        ></v-text-field>
+        <v-btn icon block @click="set.weight = set.weight * 1 - 1"
+          ><v-icon>mdi-chevron-down</v-icon></v-btn
+        >
+      </v-col>
+      <v-col cols="4">
+        <v-btn icon block @click="set.reps = set.reps * 1 + 1"
+          ><v-icon>mdi-chevron-up</v-icon></v-btn
+        >
+        <v-text-field label="Reps" v-model="set.reps" type="number" />
+        <v-btn icon block @click="set.reps = set.reps * 1 - 1"
+          ><v-icon>mdi-chevron-down</v-icon></v-btn
+        >
+      </v-col>
+      <v-col cols="4" >
+        <v-select v-if="advanced" :items="types" label="Regular" v-model="set.type" />
+        <p v-if="!advanced">Regular</p>
+      </v-col>
+    </v-row>
+    <v-slider v-if="advanced"
+      v-model="set.rpe"
+      thumb-label
+      min="0"
+      max="10"
+      tick-size="0.5"
+      label="RPE"
+    ></v-slider>
 
-      <b-input-group>
-        <b-input-group prepend="Weight">
-          <b-form-input v-model="set.weight" placeholder="weight.." type="number" />
-        </b-input-group>
-        <b-input-group prepend="Reps">
-          <b-form-input v-model="set.reps" placeholder="reps.." type="number" />
-        </b-input-group>
-        <b-input-group prepend="0" append="10">
-          <b-form-input v-model="set.rpe" type="range" min="0" max="10" />
-        </b-input-group>
-        <b-input-group>
-          <b-form-select v-model="chosenMethod" :options="exerciseMethods"></b-form-select>
-        </b-input-group>
-        <p>RPE: {{ set.rpe }}</p>
-      </b-input-group>
-      <b-button @click="newSet(set)">Add set</b-button>
+    <v-btn block @click="addSet">Add set</v-btn>
 
-      <div>
-        <b-row>
-          <b-col>Weight</b-col>
-          <b-col>Reps</b-col>
-          <b-col>RPE</b-col>
-        </b-row>
-        <b-row v-for="(setprint, idx) in currentLift.Sets" :key="idx">
-          <b-col>{{ setprint.weight }}</b-col>
-          <b-col>{{ setprint.reps }}</b-col>
-          <b-col>{{ setprint.rpe }}</b-col>
-        </b-row>
-      </div>
-      <b-row class="text left">
-        <b-col xs>
-          <h5>Primary movers:</h5>
-          <p v-for="(muscles, idx) in currentLift.Primary" :key="idx">{{ muscles }}</p>
-        </b-col>
-        <b-col xs>
-          <h5>Secondary movers:</h5>
-          <p v-for="(muscles, idx) in currentLift.Secondary" :key="idx">{{ muscles }}</p>
-        </b-col>
-      </b-row>
-    </b-container>
-  </div>
+
+  <v-simple-table>
+    <template v-slot:default>
+      <thead>
+        <tr>
+          <th class="text-center">
+            Reps
+          </th>
+          <th class="text-center">
+            Weight
+          </th>
+          <th v-if="advanced" class="text-center">
+            RPE
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="(set, idx) in currentLift.Sets"
+          :key="idx"
+        >
+          <td class="text-center">{{ set.reps }}</td>
+          <td class="text-center">{{ set.weight }}</td>
+          <td v-if="advanced" class="text-center">{{ set.rpe }}</td>
+        </tr>
+      </tbody>
+    </template>
+  </v-simple-table>
+  </v-container>
 </template>
 
-<style scoped>
-p {
-  margin-bottom: 0;
-}
-</style>
-
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   name: "LiftLog",
   data() {
     return {
       set: {
-        weight: null,
-        reps: null,
-        rpe: null,
+        weight: 0,
+        reps: 0,
+        rpe: 5,
+        type: "Regular"
       },
-      exerciseMethods: ["Myoreps", "Regular", "Rest-pause"],
-      chosenMethod: "Regular",
+      types: ["Myoreps", "Superset", "Regular", "Rest-pause"]
     };
   },
   methods: {
     ...mapActions(["newSet"]),
+    addSet() {
+      this.newSet(this.set);
+    }
   },
   computed: {
-    ...mapGetters(["currentLift"]),
+    ...mapGetters(["currentLift", "advanced"])
   },
+  created() {
+    
+  }
 };
 </script>
+
+<style>
+</style>

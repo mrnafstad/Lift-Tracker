@@ -1,36 +1,33 @@
 <template>
-  <div id="app">
+  <v-app>
     <Header />
-    <router-view/>
+    <Login />
+
+    <v-main style="padding: 15px 0px 0px;">
+      <router-view />
+    </v-main>
+
     <Footer />
-  </div>
+  </v-app>
 </template>
 
 <script>
-import Header from './components/Header.vue'
-import Footer from './components/Footer.vue'
+import Header from "./components/Header.vue";
+import Footer from "./components/Footer.vue";
+import Login from './components/Login.vue'
 
 export default {
+  name: "App",
   components: {
     Header,
-    Footer
+    Footer,
+    Login
   }
-}
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  font-family: Didot;
-}
-
-body {
-  height: 100vh;
-  margin: 0;
-  padding: 0;
+element.style {
+  padding: 15px 0px 0px;
 }
 </style>
