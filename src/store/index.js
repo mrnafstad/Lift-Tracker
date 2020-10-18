@@ -37,11 +37,11 @@ export default new Vuex.Store({
           sets: 1,
         });
       } else {
-        console.log(state.currentExecercise.Sets.length)
-        let update = state.todaysWorkout.find(
+        //console.log(state.currentExecercise.Sets.length)
+        let update =  state.todaysWorkout.find(
           (element) => element.Name === set.Name
         );
-
+        //console.log(update)
         update.reps = update.reps * 1 + set.reps * 1;
         update.effectiveReps = update.effectiveReps * 1 + 1 * effectiveReps;
         update.volume += set.reps * set.weight;

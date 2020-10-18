@@ -1,6 +1,6 @@
 <template>
   <v-container class="text-center">
-    <h3>Todays workout</h3>
+    <h3 v-if="getToday.length != 0">Todays workout</h3>
     <v-expansion-panels>
       <v-expansion-panel v-for="(exercise, idx) in getToday" :key="idx">
         <v-expansion-panel-header>{{
@@ -8,23 +8,35 @@
         }}</v-expansion-panel-header>
         <v-expansion-panel-content>
           <v-row style="background-color: gainsboro; border-radius: 5px;">
-            <v-col> Sets <br />{{ exercise.sets }} </v-col>
-            <v-col> Reps <br />{{ exercise.reps }} </v-col>
+            <v-col> Sets</v-col>
+            <v-col> Reps</v-col>
             <v-col v-if="advanced">
-              Eff. reps <br />
+              Eff. reps
+            </v-col>
+            <v-col>
+              Vol 
+            </v-col>
+            <v-col v-if="advanced">
+                Eff. vol
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col> {{ exercise.sets }} </v-col>
+            <v-col> {{ exercise.reps }} </v-col>
+            <v-col v-if="advanced">
               {{ exercise.effectiveReps }}
             </v-col>
             <v-col>
-              Vol <br />
               {{ exercise.volume }}
             </v-col>
             <v-col v-if="advanced">
-                Eff. vol <br />{{ exercise.effectiveVolume }}
+              {{ exercise.effectiveVolume }}
             </v-col>
           </v-row>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
+    <v-btn block @click="$router.push('/currentE')">Add exercise</v-btn>
   </v-container>
 </template>
 
